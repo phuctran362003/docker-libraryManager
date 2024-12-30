@@ -11,5 +11,4 @@ RUN dotnet restore "./LibraryManager.csproj"
 # Sao chép toàn bộ mã nguồn
 COPY . .
 
-# Cấu hình lệnh chạy ứng dụng với hot reload
 ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080"]
