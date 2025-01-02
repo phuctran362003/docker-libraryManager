@@ -4,10 +4,31 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-    <!-- Thêm nút chuyển hướng -->
-    <a asp-page="/Books" class="btn btn-primary">Go to sdasdasdkibidi nigga gay</a>
-</div>
+<h1>Books</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model.Books)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.ISBN</td>
+                <td>@book.Quantity</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@book.BookId">Edit</a> |
+                    <a asp-page="./Delete" asp-route-id="@book.BookId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-page="./Create" class="btn btn-primary">Add New Book</a>

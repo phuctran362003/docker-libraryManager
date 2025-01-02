@@ -1,19 +1,22 @@
-using Microsoft.AspNetCore.Mvc;
+using LibraryManager.Application.Interface;
+using LibraryManager.Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryManager.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly IBookService _bookService;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel(IBookService bookService)
     {
-        _logger = logger;
+        _bookService = bookService;
     }
 
-    public void OnGet()
-    {
+    public IList<Book> Books { get; set; } = new List<Book>();
 
+    public async Task OnGetAsync()
+    {
+        Books = (await _bookService.GetAllBooksAsync()).ToList();
     }
 }

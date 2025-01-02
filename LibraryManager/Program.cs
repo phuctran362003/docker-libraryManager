@@ -1,11 +1,21 @@
+using LibraryManager.Application.Interface;
+using LibraryManager.Application.Service;
 using LibraryManager.Infrastructure.Entities;
+using LibraryManager.Infrastructure.Interface;
+using LibraryManager.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<LibraryDbContext>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IBorrowRecordRepository, BorrowRecordRepository>();
 
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IBorrowRecordService, BorrowRecordService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

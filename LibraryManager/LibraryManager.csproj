@@ -27,4 +27,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Books\" />
+    <Folder Include="Pages\Members\" />
+    <Folder Include="Pages\BorrowRecords\" />
+  </ItemGroup>
+
 </Project>
