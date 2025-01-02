@@ -11,4 +11,4 @@ RUN dotnet restore "./LibraryManager.csproj"
 # Sao chép toàn bộ mã nguồn
 COPY . .
 
-ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080"]
+ENTRYPOINT ["dotnet", "run", "--urls", "http://0.0.0.0:8080"]
