@@ -1,5 +1,5 @@
 ﻿# Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy toàn bộ solution và các project
@@ -12,10 +12,10 @@ RUN dotnet restore "LibraryManager.sln"
 RUN dotnet build "LibraryManager.sln" -c Release -o /app/build
 
 # Publish project
-RUN dotnet publish "LibraryManager.sln" -c Release -o /app/publish
+RUN dotnet publish "LibraryManager.sln" -c Release -o /app/publish --self-contained true --runtime linux-x64
 
 # Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
 # Copy output từ stage build
