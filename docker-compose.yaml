@@ -1,31 +1,30 @@
 version: '3.8'
 
 services:
-  sqlserver:
+  lm-webapp:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: lm-webapp
+    depends_on:
+      - lm-database
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LibraryDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+
+  lm-database:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
+    restart: always
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong@Passw0rd
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
     ports:
       - "1433:1433"
     volumes:
       - sql_data:/var/opt/mssql
-
-  librarymanager:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    container_name: librarymanager
-    depends_on:
-      - sqlserver
-    environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LibraryDB;User Id=sa;Password=YourStrong@Passw0rd;
-      - ASPNETCORE_ENVIRONMENT=Development
-
-    ports:
-      - "8080:8080"
-
 
 volumes:
   sql_data:

@@ -3,12 +3,18 @@ using LibraryManager.Application.Service;
 using LibraryManager.Infrastructure.Entities;
 using LibraryManager.Infrastructure.Interface;
 using LibraryManager.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<LibraryDbContext>();
+
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+builder.Services.AddDbContext<LibraryDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IBorrowRecordRepository, BorrowRecordRepository>();

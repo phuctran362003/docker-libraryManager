@@ -9,18 +9,7 @@ namespace LibraryManager.Infrastructure.Entities
         public DbSet<Member> Members { get; set; } // Table Members
         public DbSet<BorrowRecord> BorrowRecords { get; set; } // Table BorrowRecords
 
-        public static string GetConnectionString(string connectionStringName)
-        {
-            var config = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            return config.GetConnectionString(connectionStringName);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
