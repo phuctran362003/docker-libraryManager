@@ -1,28 +1,26 @@
-﻿# Stage 1: Build
+# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /app
 
-# Copy toàn bộ solution và các project
-COPY . .
+# Copy solution và các file project vào
+COPY LibraryManager.sln ./
+COPY LibraryManager/ ./LibraryManager/
+COPY LibraryManager.Application/ ./LibraryManager.Application/
+COPY LibraryManager.Infrastructure/ ./LibraryManager.Infrastructure/
 
-# Restore dependencies
-RUN dotnet restore "LibraryManager.sln"
+# Restore các dependencies
+RUN dotnet restore
 
 # Build project
-RUN dotnet build "LibraryManager.sln" -c Release -o /app/build
-
-# Publish project
-RUN dotnet publish "LibraryManager.sln" -c Release -o /app/publish --self-contained true --runtime linux-x64
+RUN dotnet publish ./LibraryManager/LibraryManager.csproj -c Release -o /out
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
+COPY --from=build /out ./
 
-# Copy output từ stage build
-COPY --from=build /app/publish .
+# Expose cổng của ứng dụng
+EXPOSE 8080
 
-# Expose port 80 cho ứng dụng
-EXPOSE 80
-
-# Run application
-ENTRYPOINT ["dotnet", "LibraryManager.Application.dll"]
+# Start ứng dụng
+ENTRYPOINT ["dotnet", "LibraryManager.dll"]
